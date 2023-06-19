@@ -24,6 +24,7 @@ namespace ProEventos.API
         {
             // Configuração dos serviços da aplicação
             services.AddControllers();
+            services.AddCors();
 
             // Configuração do DbContext
             services.AddDbContext<DataContext>(
@@ -34,6 +35,7 @@ namespace ProEventos.API
                {
                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Nome da API", Version = "v1" });
                });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -57,6 +59,11 @@ namespace ProEventos.API
             }
 
             app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseCors(cors => cors.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
