@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace ProEventos.API.Controllers
 {
     [ApiController]
@@ -13,10 +12,10 @@ namespace ProEventos.API.Controllers
     public class EventoController : ControllerBase
     {
         private readonly DataContext _context;
-        
-        public EventoController(DataContext context){
+
+        public EventoController(DataContext context)
+        {
             this._context = context;
-            
         }
 
         [HttpGet]
@@ -26,9 +25,9 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IEnumerable<Evento> GetById(int id)
+        public Evento? GetById(int id)
         {
-            return _context.Eventos.Where( evento => evento.EventoId == id);
+            return _context.Eventos.FirstOrDefault(evento => evento.EventoId == id);
         }
 
         [HttpPost]
