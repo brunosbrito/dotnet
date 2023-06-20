@@ -4,10 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using ProEventos.API.Data;
-using ProEventos.API.Models;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using ProEventos.Persistence;
 
 namespace ProEventos.API
 {
@@ -27,7 +26,7 @@ namespace ProEventos.API
             services.AddCors();
 
             // Configuração do DbContext
-            services.AddDbContext<DataContext>(
+            services.AddDbContext<ProEventosContext>(
                 context => context.UseSqlite(Configuration.GetConnectionString("Default"))
             );
 
