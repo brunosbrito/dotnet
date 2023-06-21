@@ -34,7 +34,7 @@ namespace ProEventos.API
 
             services.AddScoped<IEventoService, EventoService>();
             services.AddScoped<IGeralPersist, GeralPersist>();
-            services.AddScoped<IEventoPersist, EventosPersist>(); 
+            services.AddScoped<IEventoPersist, EventosPersist>();
 
             services.AddCors();
 

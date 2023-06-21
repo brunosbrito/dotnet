@@ -11,7 +11,7 @@ namespace ProEventos.Persistence.Contexto
         public DbSet<Lote> Lotes { get; set; } = null!;
         public DbSet<Palestrante> Palestrantes { get; set; } = null!;
         public DbSet<PalestranteEvento> PalestranteEventos { get; set; } = null!;
-        public DbSet<RedeSoicial> RedesSoiciais { get; set; } = null!;
+        public DbSet<RedeSocial> RedesSoiciais { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,7 @@ namespace ProEventos.Persistence.Contexto
                 .WithOne(rs => rs.Palestrante)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<RedeSoicial>()
+            modelBuilder.Entity<RedeSocial>()
                 .HasOne(rs => rs.Evento)
                 .WithMany(e => e.RedesSociais)
                 .OnDelete(DeleteBehavior.Cascade);
