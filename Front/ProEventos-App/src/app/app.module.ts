@@ -16,6 +16,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatTableModule} from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
+import { EventoService } from './services/evento.service';
 
 @NgModule({
   declarations: [		
@@ -37,7 +38,7 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     FormsModule
   ],
-  providers: [],
+  providers: [EventoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

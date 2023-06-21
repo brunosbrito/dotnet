@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { EventoService } from '../services/evento.service';
+import { Evento } from '../models/Evento';
 
 @Component({
   selector: 'app-eventos',
@@ -7,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./eventos.component.scss'],
 })
 export class EventosComponent implements OnInit {
-  public eventos: any;
-  public eventosFiltrados: any;
+  public eventos: Evento[] = [];
+  public eventosFiltrados: Evento[] = [];
   private _filtroLista: string = '';
 
   public get filtroLista(): string {
@@ -20,22 +21,22 @@ export class EventosComponent implements OnInit {
     this.eventosFiltrados = this.filtroLista ? this.filtrarEventos(this.filtroLista) : this.eventos;
   }
 
-  filtrarEventos(filtrarPor: string): any {
+  public filtrarEventos(filtrarPor: string): Evento[] {
     filtrarPor = filtrarPor.toLocaleLowerCase();
     return this.eventos.filter((evento: { tema: string, local: string }) => evento.tema.toLocaleLowerCase()
       .indexOf(filtrarPor) !== -1 || evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1
     );
   }
 
-  constructor(private _http: HttpClient) { }
+  constructor(private eventoService: EventoService) { }
 
-  ngOnInit(): void {
+ public ngOnInit(): void {
     this.getEventos();
   }
 
   public getEventos(): void {
-    this._http.get('http://localhost:5212/api/evento').subscribe({
-      next: (value) => {
+    this.eventoService.getEventos().subscribe({
+      next: (value: Evento[]) => {
         this.eventos = value;
         this.eventosFiltrados = this.eventos;
       },
