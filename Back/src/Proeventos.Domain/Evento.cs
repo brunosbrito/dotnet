@@ -15,8 +15,8 @@ namespace ProEventos.Domain
         public string ImagemURL { get; set; } = null!;
         public string Telefone { get; set; } = null!;
         public string Email { get; set; } = null!;
-        public IEnumerable<Lote> Lote { get; set; } = null!;
-        public IEnumerable<RedeSoicial> RedesSociais { get; set; } = null!;
-        public IEnumerable<PalestranteEvento> PalestrantesEventos { get; set; } = null!;
+        public IEnumerable<Lote>? Lote { get; set; } = null!;
+        public IEnumerable<RedeSoicial>? RedesSociais { get; set; } = null!;
+        public IEnumerable<PalestranteEvento>? PalestrantesEventos { get; set; } = null!;
     }
 }

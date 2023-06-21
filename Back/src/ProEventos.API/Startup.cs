@@ -6,7 +6,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using ProEventos.Persistence;
+using ProEventos.Persistence.Contexto;
+using Proeventos.Application.Contratos;
+using Proeventos.Application;
+using Proeventos.Persistence;
+using Proeventos.Persistence.Contratos;
 
 namespace ProEventos.API
 {
@@ -22,7 +26,16 @@ namespace ProEventos.API
         public void ConfigureServices(IServiceCollection services)
         {
             // Configuração dos serviços da aplicação
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson(
+                        x => x.SerializerSettings.ReferenceLoopHandling =
+                            Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
+
+            services.AddScoped<IEventoService, EventoService>();
+            services.AddScoped<IGeralPersist, GeralPersist>();
+            services.AddScoped<IEventoPersist, EventosPersist>(); 
+
             services.AddCors();
 
             // Configuração do DbContext
