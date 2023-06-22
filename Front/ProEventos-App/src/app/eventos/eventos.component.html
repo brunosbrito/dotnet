@@ -1,57 +1,116 @@
 <h2>Eventos</h2>
-<hr>
 
-<div>
-    <mat-form-field>
-      <mat-label>Filtrar</mat-label>
-      <input
-      matInput
-      [(ngModel)]="filtroLista"
-      >
-    </mat-form-field>
-</div>
-
+<mat-form-field class="full-width">
+  <mat-label>Filtrar</mat-label>
+  <input matInput [(ngModel)]="filtroLista" />
+</mat-form-field>
 
 <h4 *ngIf="!eventos || eventos.length === 0">Não há eventos para exibir.</h4>
+<mat-icon>bin</mat-icon>
+<table
+  *ngIf="eventosFiltrados && eventosFiltrados.length > 0"
+  mat-table
+  [dataSource]="eventosFiltrados"
+  class="mat-elevation-z8"
+>
+  <!-- Cabeçalho da tabela -->
+  <ng-container matColumnDef="EventoId">
+    <th mat-header-cell *matHeaderCellDef class="custom-header">#</th>
+    <td mat-cell *matCellDef="let evento">{{ evento.eventoId }}</td>
+  </ng-container>
 
-<table *ngIf="eventosFiltrados && eventosFiltrados.length > 0" mat-table [dataSource]="eventosFiltrados" class="mat-elevation-z8">
-    <!-- Cabeçalho da tabela -->
-    <ng-container matColumnDef="EventoId">
-      <th mat-header-cell *matHeaderCellDef class="custom-header">#</th>
-      <td mat-cell *matCellDef="let evento">{{ evento.eventoId }}</td>
-    </ng-container>
+  <ng-container matColumnDef="Imagem">
+    <th mat-header-cell *matHeaderCellDef class="custom-header">Imagem</th>
+    <td mat-cell *matCellDef="let evento">{{ evento.imagemURL }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="Imagem">
-        <th mat-header-cell *matHeaderCellDef class="custom-header">Imagem</th>
-        <td mat-cell *matCellDef="let evento">{{ evento.imagemURL }}</td>
-      </ng-container>
-  
-    <ng-container matColumnDef="Local">
-      <th mat-header-cell *matHeaderCellDef class="custom-header">Local</th>
-      <td mat-cell *matCellDef="let evento">{{ evento.local }}</td>
-    </ng-container>
-  
-    <ng-container matColumnDef="DataEvento">
-      <th mat-header-cell *matHeaderCellDef class="custom-header">Data do Evento</th>
-      <td mat-cell *matCellDef="let evento">{{ evento.dataEvento }}</td>
-    </ng-container>
-  
-    <ng-container matColumnDef="Tema">
-      <th mat-header-cell *matHeaderCellDef class="custom-header">Tema</th>
-      <td mat-cell *matCellDef="let evento">{{ evento.tema }}</td>
-    </ng-container>
-  
-    <ng-container matColumnDef="QtdPessoas">
-      <th mat-header-cell *matHeaderCellDef class="custom-header">Quantidade de Pessoas</th>
-      <td mat-cell *matCellDef="let evento">{{ evento.qtdPessoas }}</td>
-    </ng-container>
-  
-    <!-- Cabeçalho da tabela -->
-    <tr mat-header-row *matHeaderRowDef="['EventoId', 'Imagem', 'Local', 'DataEvento', 'Tema', 'QtdPessoas']"></tr>
-  
-    <!-- Linhas da tabela -->
-    <tr mat-row *matRowDef="let row; columns: ['EventoId', 'Imagem', 'Local', 'DataEvento', 'Tema', 'QtdPessoas']"></tr>
-  </table>
-  
-  
-  
+  <ng-container matColumnDef="Local">
+    <th mat-header-cell *matHeaderCellDef class="custom-header">Local</th>
+    <td mat-cell *matCellDef="let evento">{{ evento.local }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="DataEvento">
+    <th mat-header-cell *matHeaderCellDef class="custom-header">
+      Data do Evento
+    </th>
+    DateTimeFormatPipe
+    <td mat-cell *matCellDef="let evento">
+      {{ evento.dataEvento | DateTimeFormatPipe }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Tema">
+    <th mat-header-cell *matHeaderCellDef class="custom-header">Tema</th>
+    <td mat-cell *matCellDef="let evento">{{ evento.tema }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="QtdPessoas">
+    <th mat-header-cell *matHeaderCellDef class="custom-header">
+      Quantidade de Pessoas
+    </th>
+    <td mat-cell *matCellDef="let evento">{{ evento.qtdPessoas }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="Lote">
+    <th mat-header-cell *matHeaderCellDef class="custom-header">Lote</th>
+    <td mat-cell *matCellDef="let evento">{{ evento.lote[0].nome }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="Opcoes">
+    <th mat-header-cell *matHeaderCellDef class="custom-header">Opções</th>
+    <td mat-cell *matCellDef="let evento">
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        matTooltip="Editar"
+        (click)="openDialog()"
+      >
+        Editar
+      </button>
+      <button
+        style="margin-left: 10px"
+        type="button"
+        mat-raised-button
+        color="warn"
+        matTooltip="Excluir"
+        (click)="openDialog()"
+      >
+        Excluir
+      </button>
+    </td>
+  </ng-container>
+
+  <!-- Cabeçalho da tabela -->
+  <tr
+    mat-header-row
+    *matHeaderRowDef="[
+      'EventoId',
+      'Imagem',
+      'Local',
+      'DataEvento',
+      'Tema',
+      'QtdPessoas',
+      'Lote',
+      'Opcoes'
+    ]"
+  ></tr>
+
+  <!-- Linhas da tabela -->
+  <tr
+    mat-row
+    *matRowDef="
+      let row;
+      columns: [
+        'EventoId',
+        'Imagem',
+        'Local',
+        'DataEvento',
+        'Tema',
+        'QtdPessoas',
+        'Lote',
+        'Opcoes'
+      ]
+    "
+  ></tr>
+</table>

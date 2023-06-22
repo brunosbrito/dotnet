@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EventoService } from '../services/evento.service';
 import { Evento } from '../models/Evento';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmeModalComponent } from '../confirmeModal/confirmeModal.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-eventos',
@@ -28,7 +31,23 @@ export class EventosComponent implements OnInit {
     );
   }
 
-  constructor(private eventoService: EventoService) { }
+  constructor(
+    private eventoService: EventoService,
+    public dialog: MatDialog,
+    private toastr: ToastrService
+    ) { }
+
+    openDialog() {
+      const dialogRef = this.dialog.open(ConfirmeModalComponent);
+  
+      dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+              this.toastr.success('Olá mundo!', 'Toastr divertido!');
+          }
+          console.log(`Resultado do diálogo: ${result}`);
+      });
+  }
+  
 
  public ngOnInit(): void {
     this.getEventos();
